@@ -3,22 +3,8 @@
   "version": "1.0.0",
   "description": "...",
   "main": "index.js",
-  "dependencies": {
-    "unity-npm-utils": "github:beatthat/unity-npm-utils#semver:^1.0.0",
-    "path": "^0.12.7"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node scripts/postinstall.js",
-    "preinstall:test": "rm -f *.tgz",
-    "install:test": "npm pack && cp ${npm_package_name}-${npm_package_version}.tgz ${npm_package_name}-latest.tgz && cd test && npm run clean && npm install",
-    "clean": "rm -f *.tgz package-lock.json && cd test && npm run clean",
-    "template:update": "node scripts/template-update.js",
-    "cp:test2src": "cd test && node scripts/cp-test2src.js",
-    "overwrite:test2src": "cd test && node scripts/overwrite-test2src.js",
-    "version": "git add -A",
-    "postversion": "git push && git push --tags && npm run clean"
+  "config": {
+    "scope": "ape"
   },
   "repository": {
     "type": "git",
@@ -35,5 +21,23 @@
     "index.js",
     "scripts",
     "src"
-  ]
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node scripts/postinstall.js",
+    "preinstall:test": "rm -f *.tgz",
+    "install:test": "npm pack && cp ${npm_package_name}-${npm_package_version}.tgz ${npm_package_name}-latest.tgz && cd test && npm run clean && npm install",
+    "clean": "rm -f *.tgz package-lock.json && cd test && npm run clean",
+    "template:update": "node scripts/template-update.js",
+    "cp:test2src": "cd test && node scripts/cp-test2src.js",
+    "overwrite:test2src": "cd test && node scripts/overwrite-test2src.js",
+    "version": "git add -A",
+    "postversion": "git push && git push --tags && npm run clean"
+  },
+  "dependencies": {
+    "get-components-ext": "github:beatthat/get-components-ext#semver:^1.0.0",
+    "path": "^0.12.7",
+    "unity-npm-utils": "github:beatthat/unity-npm-utils#semver:^1.0.0"
+  },
+  "devDependencies": {}
 }
