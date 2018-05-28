@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace BeatThat.OptionalComponents
 {
@@ -27,37 +28,13 @@ namespace BeatThat.OptionalComponents
 		/// <returns>the number of components added</returns>
 		public static int EnsureAll(Component c)
 		{
-			var attrs = c.GetType ().GetCustomAttributes (typeof(OptionalComponentAttribute), true);
-			if (attrs == null || attrs.Length == 0) {
-				return 0;
+			using (var optionalCompTypes = ListPool<Type>.Get ()) {
+				c.GetType().GetOptionalComponentTypes (optionalCompTypes);
+				foreach (var ct in optionalCompTypes) {
+					c.AddIfMissing (ct);
+				}
+				return optionalCompTypes.Count;
 			}
-
-			var n = 0;
-			foreach (var a in attrs) {
-				var curAttr = a as OptionalComponentAttribute;
-				if (curAttr == null) {
-					continue;
-				}
-				if (curAttr.componentType == null) {
-					#if UNITY_EDITOR || DEBUG_UNSTRIP
-					Debug.LogWarning("No component type set on OptionalComponent attr for class " + c.GetType());
-					continue;
-					#endif
-				}
-
-				if (!typeof(Component).IsAssignableFrom (curAttr.componentType)) {
-					#if UNITY_EDITOR || DEBUG_UNSTRIP
-					Debug.LogWarning("No component type is not a Component on OptionalComponent attr for class " 
-						+ c.GetType() + " (componentType=" + curAttr.componentType + ")");
-					continue;
-					#endif
-				}
-
-				c.AddIfMissing (curAttr.componentType);
-				n++;
-			}
-
-			return n;
 		}
 	}
 
@@ -73,6 +50,41 @@ namespace BeatThat.OptionalComponents
 		public static int EnsureAllOptionalComponents(this Component c)
 		{
 			return OptionalComponentAttribute.EnsureAll (c);
+		}
+
+		public static int GetOptionalComponentTypes(this Type t, ICollection<Type> optionalComponentTypes)
+		{
+			var attrs = t.GetCustomAttributes (typeof(OptionalComponentAttribute), true);
+			if (attrs == null || attrs.Length == 0) {
+				return 0;
+			}
+
+			var n = 0;
+			foreach (var a in attrs) {
+				var curAttr = a as OptionalComponentAttribute;
+				if (curAttr == null) {
+					continue;
+				}
+				if (curAttr.componentType == null) {
+					#if UNITY_EDITOR || DEBUG_UNSTRIP
+					Debug.LogWarning("No component type set on OptionalComponent attr for class " + t.Name);
+					continue;
+					#endif
+				}
+
+				if (!typeof(Component).IsAssignableFrom (curAttr.componentType)) {
+					#if UNITY_EDITOR || DEBUG_UNSTRIP
+					Debug.LogWarning("No component type is not a Component on OptionalComponent attr for class " 
+						+ t.Name + " (componentType=" + curAttr.componentType + ")");
+					continue;
+					#endif
+				}
+
+				optionalComponentTypes.Add(curAttr.componentType);
+				n++;
+			}
+
+			return n;
 		}
 	}
 }

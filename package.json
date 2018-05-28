@@ -4,7 +4,7 @@
   "description": "...",
   "main": "index.js",
   "config": {
-    "scope": "ape"
+    "scope": "beatthat"
   },
   "repository": {
     "type": "git",
@@ -16,11 +16,13 @@
   "bugs": {
     "url": "https://github.com/beatthat/optional-components/issues"
   },
-  "homepage": "https://github.com/beatthat/optional-components#readme",
+  "homepage": "https://github.com/beatthat/optional-components",
   "files": [
     "index.js",
     "scripts",
-    "src"
+    "src",
+    "Runtime",
+    "Samples"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
