@@ -1,7 +1,7 @@
 {
   "name": "optional-components",
   "version": "1.0.5",
-  "description": "...",
+  "description": "similar to Unity's RequireComponent but supports various ways to declare (sibling) components as optional",
   "main": "index.js",
   "config": {
     "scope": "beatthat"

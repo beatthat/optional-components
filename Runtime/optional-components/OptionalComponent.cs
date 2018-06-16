@@ -1,15 +1,17 @@
 using System;
-using UnityEngine;
 using System.Collections.Generic;
+using BeatThat.GetComponentsExt;
+using BeatThat.Pools;
+using UnityEngine;
 
 namespace BeatThat.OptionalComponents
 {
-	/// <summary>
-	/// Sometimes your Component could use an attribute to add a helper component,
-	/// but you want to make it optional (at least possible to disable)
-	/// and so Unity's RequireComponent isn't the thing.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+    /// <summary>
+    /// Sometimes your Component could use an attribute to add a helper component,
+    /// but you want to make it optional (at least possible to disable)
+    /// and so Unity's RequireComponent isn't the thing.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 	public class OptionalComponentAttribute : Attribute 
 	{
 		public OptionalComponentAttribute(Type componentType) 
@@ -88,3 +90,7 @@ namespace BeatThat.OptionalComponents
 		}
 	}
 }
+
+
+
+
