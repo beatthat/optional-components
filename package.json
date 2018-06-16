@@ -1,6 +1,6 @@
 {
   "name": "optional-components",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "similar to Unity's RequireComponent but supports various ways to declare (sibling) components as optional",
   "main": "index.js",
   "config": {
