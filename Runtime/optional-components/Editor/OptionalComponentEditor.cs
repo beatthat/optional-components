@@ -21,7 +21,31 @@ namespace BeatThat.OptionalComponents
 
 					GUI.backgroundColor = Color.cyan;
 					if (GUILayout.Button (new GUIContent("Add a " + ct.Name, ct.Name + " is specified as an OptionalComponent for " + onGUITarget.GetType().Name))) {
-						onGUITarget.AddIfMissing (ct);
+						var added = onGUITarget.AddIfMissing (ct);
+
+                        using (var allComps = ListPool<Component>.Get())
+                        {
+                            onGUITarget.GetComponents<Component>(allComps);
+                            var afterIndex = allComps.FindIndex(x => x == onGUITarget);
+                            if(afterIndex != -1) {
+                                var curIndex = allComps.FindIndex(x => x.GetType() == ct);
+                                if (curIndex > afterIndex + 1)
+                                {
+                                    for (; curIndex > afterIndex + 1; curIndex--)
+                                    {
+                                        UnityEditorInternal.ComponentUtility.MoveComponentUp(added);
+                                    }
+                                }
+                                else if (curIndex != -1 && curIndex < afterIndex + 1)
+                                {
+                                    for (; curIndex < afterIndex + 1; curIndex++)
+                                    {
+                                        UnityEditorInternal.ComponentUtility.MoveComponentDown(added);
+                                    }
+                                }
+                            }
+                        }
+
 					}
 					GUI.backgroundColor = bkgColorSave;
 				}
